@@ -142,3 +142,4 @@ cython_debug/
 workspace.code-workspace
 .vscode/
 docs/source/_build
+.DS_Store
