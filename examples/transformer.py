@@ -250,7 +250,7 @@ class TransformerWrapper:
         self.val_losses = []
         time0 = time.time()
         for e in range(self.epochs):
-            self.model.train()  # Ensure the network is in "train" mode with e.g. dropouts active
+            self.model.train()  # Ensure the network is in "train" name with e.g. dropouts active
             running_loss = 0
             time_e0 = time.time()
             for reactant_t, product_t in train_loader:
@@ -282,7 +282,7 @@ class TransformerWrapper:
                 samples_pr_sec = len(train_dataset) / time_pr_epoch
 
                 with torch.no_grad():
-                    self.model.eval()  # Evaluation mode
+                    self.model.eval()  # Evaluation name
                     # TODO calculate the val_set in mini_batches to avoid memory issues
                     pred_val = self.model.forward(X_val_t[0:512], y_val_t[0:512, :-1])
                     pred_val = pred_val.transpose(0, 1)

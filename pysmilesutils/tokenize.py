@@ -16,7 +16,7 @@ Tokens = List[str]
 
 
 class SMILESTokenizer:
-    """A class for tokenizing and encoding SMILES.
+    """A class for tokenizing and _encoding SMILES.
 
     The tokenizer has a vocabulary that maps tokens to unique integers (a dictionary Dict[str, int]),
     and is created from a set of SMILES. Unless specified otherwise all single character are treated as tokens,
@@ -45,7 +45,7 @@ class SMILESTokenizer:
     Note also that the list of regular expressions take priority when parsing the SMILES,
     and tokens earlier are in the lists are also prioritized.
 
-    The `encoding_type` argument specifies the type of encoding used. Must be either 'index' or 'one hot'.
+    The `encoding_type` argument specifies the type of _encoding used. Must be either 'index' or 'one hot'.
     The former means that the encoded data are integer representations of the tokens found,
     while the latter is one hot encodings of these ids. Defaults to "index".
 
@@ -56,7 +56,7 @@ class SMILESTokenizer:
     :param end_of_smiles_token: Token that is added to the end of SMILES. Defaults to "&".
     :param padding_token: Token used for padding. Defalts to " ".
     :param unknown_token: Token that is used for unknown ids when decoding encoded data. Defaults to "?".
-    :param encoding_type: The type of encoding used for the final output.
+    :param encoding_type: The type of _encoding used for the final output.
     :param filename: if given and `smiles` is None, load the vocabulary from disc
     :raises: ValueError: If the `encoding_type` is invalid.
     """
@@ -182,13 +182,13 @@ class SMILESTokenizer:
     ) -> List[torch.Tensor]:
         """Encodes a list of SMILES or a single SMILES into torch tensor(s).
 
-        The encoding is specified by the tokens and regex supplied to the tokenizer
+        The _encoding is specified by the tokens and regex supplied to the tokenizer
         class. This function uses the three functions `tokenize`,
-        `convert_tokens_to_ids`, and `convert_ids_to_encodings` as the encoding
+        `convert_tokens_to_ids`, and `convert_ids_to_encodings` as the _encoding
         process.
 
         :param data: A list of SMILES or a single SMILES.
-        :param encoding_type: The type of encoding to convert to,
+        :param encoding_type: The type of _encoding to convert to,
                 'index' or 'one hot'. If `None` is provided the value specified in
                 the class is used., defaults to None
         :param enclose: if `True`, each SMILES is enclosed by the
@@ -217,7 +217,7 @@ class SMILESTokenizer:
 
         The conversion is done by parsing the SMILES using regular expressions, which have been
         compiled using the token and regex lists specified in the tokenizer. This
-        function is part of the SMILES encoding process and is called in the
+        function is part of the SMILES _encoding process and is called in the
         `encode` function.
 
         :param data: A list os SMILES to be tokenized.
@@ -269,12 +269,12 @@ class SMILESTokenizer:
     ) -> List[torch.Tensor]:
         """Converts a list of id tensors to a list of tensors of SMILES encodings.
 
-        The function is used when encoding SMILES and is called in the `encode`
+        The function is used when _encoding SMILES and is called in the `encode`
         function. If the `encoding_type` is `index` then the input is returned.
 
         :param id_data: A list of tensors containing
                 token ids.
-        :param encoding_type: The type of encoding to convert to,
+        :param encoding_type: The type of _encoding to convert to,
                 'index' or 'one hot'. If `None` is provided the value specified in
                 the class is used., defaults to None
 
@@ -289,7 +289,7 @@ class SMILESTokenizer:
 
         if encoding_type == "index":
             return id_data
-        # Implies "one hot" encoding
+        # Implies "one hot" _encoding
         num_tokens = len(self.vocabulary)
         onehot_tensor = torch.eye(num_tokens)
         onehot_data = [onehot_tensor[ids] for ids in id_data]
@@ -307,7 +307,7 @@ class SMILESTokenizer:
 
         :param encoded_data: The encoded SMILES data to be
                 decoded into SMILES.
-        :param encoding_type: The type of encoding to convert from,
+        :param encoding_type: The type of _encoding to convert from,
                 'index' or 'one hot'. If `None` is provided the value specified in
                 the class is used., defaults to None
 
@@ -386,12 +386,12 @@ class SMILESTokenizer:
         """Converts a list of encodings of SMILES to a list of id tensors.
 
         This functions is used when decoding data with the `decode` function,
-        and is the inverse of `covert_ids_to_encoding`. If the encoding type is
+        and is the inverse of `covert_ids_to_encoding`. If the _encoding type is
         'index' this function just returns the input.
 
         :param encoded_data: Encoded SMILES to be
                 converted.
-        :param encoding_type: The type of encoding to convert from,
+        :param encoding_type: The type of _encoding to convert from,
                 'index' or 'one hot'. If `None` is provided the value specified in
                 the class is used., defaults to None
 
@@ -407,7 +407,7 @@ class SMILESTokenizer:
         if encoding_type == "index":
             return encoded_data
 
-        # Implies "one hot" encoding
+        # Implies "one hot" _encoding
         id_data = []
         for encoding in encoded_data:
             indices, t_ids = torch.nonzero(encoding, as_tuple=True)
@@ -588,14 +588,14 @@ class SMILESTokenizer:
         return re.compile(regex_string)
 
     def _check_encoding_type(self, encoding_type: str) -> None:
-        """Check if encoding type is one of "index" or "one hot".
+        """Check if _encoding type is one of "index" or "one hot".
 
         :param encoding_type: Encoding type
         :raises ValueError: If encoding_type is not one of "index" or "one hot"
         """
         if encoding_type not in {"one hot", "index"}:
             raise ValueError(
-                f"unknown choice of encoding: {encoding_type}, muse be either 'one hot' or 'index'"
+                f"unknown choice of _encoding: {encoding_type}, muse be either 'one hot' or 'index'"
             )
 
     def _state_properties(self) -> Dict[str, Any]:
